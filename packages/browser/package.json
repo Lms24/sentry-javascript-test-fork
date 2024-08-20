@@ -49,7 +49,8 @@
   },
   "devDependencies": {
     "@sentry-internal/integration-shims": "8.26.0",
-    "fake-indexeddb": "^4.0.1"
+    "@sentry-internal/vitest-config": "8.26.0",
+    "fake-indexeddb": "^4.0.1",
   },
   "scripts": {
     "build": "run-p build:transpile build:bundle build:types",
@@ -66,12 +67,13 @@
     "build:types:watch": "tsc -p tsconfig.types.json --watch",
     "build:tarball": "npm pack",
     "circularDepCheck": "madge --circular src/index.ts",
-    "clean": "rimraf build coverage .rpt2_cache sentry-browser-*.tgz",
+    "clean": "rimraf build coverage .rpt2_cache sentry-browser-*.tgz .stryker-tmp",
     "fix": "eslint . --format stylish --fix",
     "lint": "eslint . --format stylish",
     "size:check": "cat build/bundles/bundle.min.js | gzip -9 | wc -c | awk '{$1=$1/1024; print \"ES2017: \",$1,\"kB\";}'",
     "test": "vitest run",
     "test:watch": "vitest --watch",
+    "test:mutation": "stryker run",
     "yalc:publish": "yalc publish --push --sig"
   },
   "volta": {

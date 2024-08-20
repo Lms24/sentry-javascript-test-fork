@@ -10,6 +10,7 @@ build/
 # various integration test builds
 dist/
 coverage/
+reports/
 scratch/
 *.js.map
 *.pyc
@@ -41,6 +42,8 @@ local.log
 .nx
 
 .rpt2_cache
+
+.stryker-tmp
 
 lint-results.json
 

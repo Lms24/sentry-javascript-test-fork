@@ -17,6 +17,7 @@ import {
   parseEnvelope,
 } from '@sentry/utils';
 
+import { describe, expect, it, vi } from 'vitest';
 import { createTransport } from '../../../src';
 import type { CreateOfflineStore, OfflineTransportOptions } from '../../../src/transports/offline';
 import { START_DELAY, makeOfflineTransport } from '../../../src/transports/offline';
@@ -161,7 +162,9 @@ function waitUntil(fn: () => boolean, timeout: number): Promise<void> {
 }
 
 describe('makeOfflineTransport', () => {
-  it('Sends envelope and checks the store for further envelopes', async () => {
+  vi.useFakeTimers();
+
+  it('sends envelope and checks the store for further envelopes', async () => {
     const { getCalls, store } = createTestStore();
     const { getSendCount, baseTransport } = createTestTransport({ statusCode: 200 });
     let queuedCount = 0;
@@ -173,6 +176,9 @@ describe('makeOfflineTransport', () => {
         return true;
       },
     });
+
+    vi.runAllTimersAsync();
+
     const result = await transport.send(ERROR_ENVELOPE);
 
     expect(result).toEqual({ statusCode: 200 });
@@ -410,8 +416,7 @@ describe('makeOfflineTransport', () => {
     START_DELAY + 2_000,
   );
 
-  // eslint-disable-next-line jest/no-disabled-tests
-  it.skip(
+  it(
     'Follows the Retry-After header',
     async () => {
       const { getCalls, store } = createTestStore(ERROR_ENVELOPE);

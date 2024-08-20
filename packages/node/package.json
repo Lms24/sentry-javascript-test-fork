@@ -96,7 +96,8 @@
     "import-in-the-middle": "^1.11.0"
   },
   "devDependencies": {
-    "@types/node": "^14.18.0"
+    "@types/node": "^14.18.0",
+    "@sentry-internal/jest-config": "8.26.0"
   },
   "optionalDependencies": {
     "opentelemetry-instrumentation-fetch-node": "1.2.3"
@@ -114,12 +115,13 @@
     "build:types:watch": "tsc -p tsconfig.types.json --watch",
     "build:tarball": "npm pack",
     "circularDepCheck": "madge --circular src/index.ts",
-    "clean": "rimraf build coverage sentry-node-*.tgz",
+    "clean": "rimraf build coverage sentry-node-*.tgz .stryker-tmp",
     "fix": "eslint . --format stylish --fix",
     "lint": "eslint . --format stylish",
     "test": "yarn test:jest",
     "test:jest": "jest",
     "test:watch": "jest --watch",
+    "test:mutation": "stryker run",
     "yalc:publish": "yalc publish --push --sig"
   },
   "volta": {
